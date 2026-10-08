@@ -8,14 +8,14 @@ import pytest
 
 from redact import generate_scheme, redact
 
-ROOT = Path(__file__).resolve().parent.parent
+EXAMPLE = Path(__file__).resolve().parent.parent / "example"
 
 
 def test_example():
-    data = (ROOT / "in.csv").read_bytes()
+    data = (EXAMPLE / "in.csv").read_bytes()
     scheme = generate_scheme(data, ["name"])
-    assert scheme == json.loads((ROOT / "scheme.json").read_text())
-    assert redact(data, scheme) == (ROOT / "out.csv").read_bytes()
+    assert scheme == json.loads((EXAMPLE / "scheme.json").read_text())
+    assert redact(data, scheme) == (EXAMPLE / "out.csv").read_bytes()
 
 
 @pytest.mark.parametrize("delimiter", [",", ";", "\t", "|"])

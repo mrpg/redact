@@ -11,23 +11,23 @@ from click.testing import CliRunner
 from redact import redact
 from redact.cli import redact_cli, scheme_cli
 
-ROOT = Path(__file__).resolve().parent.parent
+EXAMPLE = Path(__file__).resolve().parent.parent / "example"
 BIN = Path(sys.executable).parent
 
 
 def test_installed_commands_pipe_a_scheme() -> None:
     generated = subprocess.run(
-        [str(BIN / "redact-scheme"), "-c", "name", str(ROOT / "in.csv")],
+        [str(BIN / "redact-scheme"), "-c", "name", str(EXAMPLE / "in.csv")],
         capture_output=True,
         check=True,
     )
     applied = subprocess.run(
-        [str(BIN / "redact"), "-s", "-", str(ROOT / "in.csv")],
+        [str(BIN / "redact"), "-s", "-", str(EXAMPLE / "in.csv")],
         input=generated.stdout,
         capture_output=True,
         check=True,
     )
-    assert applied.stdout == (ROOT / "out.csv").read_bytes()
+    assert applied.stdout == (EXAMPLE / "out.csv").read_bytes()
 
 
 def test_commands_filter_standard_input_and_output(tmp_path: Path) -> None:
