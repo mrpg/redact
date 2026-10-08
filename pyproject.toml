@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "redact"
+version = "0.1.0"
+description = "Byte-range redaction with CSV column scheme generation"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = ["click"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+]
+
+[dependency-groups]
+dev = ["black", "build", "isort", "mypy", "pytest", "ruff"]
+
+[project.scripts]
+redact = "redact.cli:redact_cli"
+redact-scheme = "redact.cli:scheme_cli"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+redact = ["py.typed"]
+
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+
+[tool.isort]
+profile = "black"
+line_length = 88
+src_paths = ["src", "tests"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.mypy]
+python_version = "3.12"
+mypy_path = "src"
+files = ["src"]
+strict = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
